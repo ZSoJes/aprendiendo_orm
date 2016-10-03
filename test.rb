@@ -6,15 +6,16 @@ def assert(truthy)
 end
 
 chef = Chef.find(1)
-
+meal = Meal.find(1)
 # Este es un ejemplo de test ya que los nombres de los chefs son aleatorios, este test muy probablemente fallará
 assert chef != nil
+assert meal != nil
 assert chef[:first_name] == 'Eduardo'
 assert chef[:last_name] == 'Fernández' 
 # p chef[:first_name] = 'Eduard'	si sirve
 # assert chef[:first_name] == "Eduard"	si sirve
 
-#chef.create {"Juan","Gomez","1994-11-27","10orangeblue@gmail.com","48393843"}
+chef.create {"first_name"=>"Juan" "last_name"=>"Gomez" "birthday"=>"1994-11-27" "email"=>"10orangeblue@gmail.com" "phone","48393843"}
 
 
 puts "finished"

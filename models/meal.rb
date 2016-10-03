@@ -24,20 +24,12 @@ class Meal < MiniActiveRecord::Model
 
   self.attribute_names = [:id, :name, :chef_id, :created_at, :updated_at]
 
-  attr_reader :attributes, :old_attributes
 
+  #attr_reader :attributes, :old_attributes
   # e.g., Meal.new(id: 1, name: 'Chicken', created_at: '2012-12-01 05:54:30')
   def initialize(attributes = {})
-    attributes.symbolize_keys!
-    raise_error_if_invalid_attribute!(attributes.keys)
-
-    @attributes = {}
-
-    Meal.attribute_names.each do |name|
-      @attributes[name] = attributes[name]
-    end
-
-    @old_attributes = @attributes.dup
+    @clase = self.class
+    super
   end
 
   def [](attribute)
@@ -67,18 +59,18 @@ class Meal < MiniActiveRecord::Model
     self[:id].nil?
   end
 
-  def save
-    if new_record?
-      results = insert!
-    else
-      results = update!
-    end
+  # def save
+  #   if new_record?
+  #     results = insert!
+  #   else
+  #     results = update!
+  #   end
 
-    # When we save, remove changes between new and old attributes
-    @old_attributes = @attributes.dup
+  #   # When we save, remove changes between new and old attributes
+  #   @old_attributes = @attributes.dup
 
-    results
-  end
+  #   results
+  # end
 
 
   private

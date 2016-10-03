@@ -71,7 +71,33 @@ module MiniActiveRecord
       attribute_str = self.attributes.map { |key, val| "#{key}: #{val.inspect}" }.join(', ')
       "#<#{self.class} #{attribute_str}>"
     end
+  attr_reader :attributes, :old_attributes
+    def initialize(attributes = {})
+      attributes.symbolize_keys!
+      raise_error_if_invalid_attribute!(attributes.keys)
 
+    # This defines the value even if it's not present in attributes
+      @attributes = {}
+
+      @clase.attribute_names.each do |name|
+        @attributes[name] = attributes[name]
+      end
+
+    @old_attributes = @attributes.dup
+    end
+
+    def save
+    if new_record?
+      results = insert!
+    else
+      results = update!
+    end
+
+    # When we save, remove changes between new and old attributes
+    @old_attributes = @attributes.dup
+
+    results
+    end
 
     private
 
