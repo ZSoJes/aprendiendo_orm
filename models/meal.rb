@@ -32,17 +32,17 @@ class Meal < MiniActiveRecord::Model
     super
   end
 
-  def [](attribute)
-    raise_error_if_invalid_attribute!(attribute)
+  # def [](attribute)
+  #   raise_error_if_invalid_attribute!(attribute)
 
-    @attributes[attribute]
-  end
+  #   @attributes[attribute]
+  # end
 
-  def []=(attribute, value)
-    raise_error_if_invalid_attribute!(attribute)
+  # def []=(attribute, value)
+  #   raise_error_if_invalid_attribute!(attribute)
 
-    @attributes[attribute] = value
-  end
+  #   @attributes[attribute] = value
+  # end
 
   def chef
     Chef.where('id = ?', self[:chef_id])

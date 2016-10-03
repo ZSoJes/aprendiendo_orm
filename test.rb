@@ -15,7 +15,11 @@ assert chef[:last_name] == 'Fernández'
 # p chef[:first_name] = 'Eduard'	si sirve
 # assert chef[:first_name] == "Eduard"	si sirve
 
-chef.create {"first_name"=>"Juan" "last_name"=>"Gomez" "birthday"=>"1994-11-27" "email"=>"10orangeblue@gmail.com" "phone","48393843"}
+chef = Chef.create(first_name: "Juan",
+  		 last_name: "Gomez",
+  		 email:'10orangeblue@gmail.com',
+  		 phone:'48393842',
+  		 birthday:Time.now)
 
 
 puts "finished"

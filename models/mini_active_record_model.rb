@@ -99,6 +99,17 @@ module MiniActiveRecord
     results
     end
 
+    def [](attribute)
+      raise_error_if_invalid_attribute!(attribute)
+      @attributes[attribute]
+    end
+
+    def []=(attribute, value)
+      raise_error_if_invalid_attribute!(attribute)
+
+      @attributes[attribute] = value
+    end
+
     private
 
     def self.prepare_value(value)
