@@ -73,12 +73,27 @@ module MiniActiveRecord
     end
 
     def self.all
-      MiniActiveRecord::Model.execute("SELECT * FROM #{@consulta}").map do |row|
-        @clase_Es.new(row)
+      MiniActiveRecord::Model.execute("SELECT * FROM #{@tabla}").map do |row|
+        self.new(row)
       end
     end
 
-  
+    def self.create(attributes)
+      record = self.new(attributes)
+      record.save
+      record
+    end  
+
+    def self.where(query, *args)
+      MiniActiveRecord::Model.execute("SELECT * FROM #{@tabla} WHERE #{query}", *args).map do |row|
+        self.new(row)
+      end
+    end
+
+    def self.find(pk)
+      self.where('id = ?', pk).first
+    end
+attr_reader :attributes, :old_attributes
     def initialize(attributes = {})
       attributes.symbolize_keys!
       raise_error_if_invalid_attribute!(attributes.keys)
@@ -106,6 +121,10 @@ module MiniActiveRecord
     results
     end
 
+    def new_record?
+      self[:id].nil?
+    end
+
     def [](attribute)
       raise_error_if_invalid_attribute!(attribute)
       @attributes[attribute]
@@ -128,6 +147,35 @@ module MiniActiveRecord
       end
     end
 
+    def insert!
+          self[:created_at] = DateTime.now
+    self[:updated_at] = DateTime.now
+
+    fields = self.attributes.keys
+    values = self.attributes.values
+    marks  = Array.new(fields.length) { '?' }.join(',')
+
+    insert_sql = "INSERT INTO #{@tabla} (#{fields.join(',')}) VALUES (#{marks})"
+
+    results = MiniActiveRecord::Model.execute(insert_sql, *values)
+
+    # This fetches the new primary key and updates this instance
+      self[:id] = MiniActiveRecord::Model.last_insert_row_id
+      results
+    end
+
+    def update!
+      self[:updated_at] = DateTime.now
+
+      fields = self.attributes.keys
+      values = self.attributes.values
+
+      update_clause = fields.map { |field| "#{field} = ?" }.join(',')
+      update_sql = "UPDATE #{@tabla} SET #{update_clause} WHERE id = ?"
+
+      # We have to use the (potentially) old ID attribute in case the user has re-set it.
+      MiniActiveRecord::Model.execute(update_sql, *values, self.old_attributes[:id])
+    end
   end
 
 end

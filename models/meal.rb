@@ -1,33 +1,17 @@
 class Meal < MiniActiveRecord::Model
+  @tabla = "meals"
   def self.all
-    @consulta = "meals"
-    @clase_Es = self
+    @tabla
     super
-     # MiniActiveRecord::Model.execute("SELECT * FROM meals").map do |row|
-     #     Meal.new(row)
-     #   end
-  end
-
-  def self.create(attributes)
-    record = self.new(attributes)
-    record.save
-
-    record
   end
 
   def self.where(query, *args)
-    MiniActiveRecord::Model.execute("SELECT * FROM meals WHERE #{query}", *args).map do |row|
-      Meal.new(row)
-    end
-  end
-
-  def self.find(pk)
-    self.where('id = ?', pk).first
+    @tabla
+    super
   end
 
   self.attribute_names = [:id, :name, :chef_id, :created_at, :updated_at]
-attr_reader :attributes, :old_attributes
-  # e.g., Meal.new(id: 1, name: 'Chicken', created_at: '2012-12-01 05:54:30')
+
   def initialize(attributes = {})
     @clase = self.class
     super
@@ -44,43 +28,15 @@ attr_reader :attributes, :old_attributes
     chef
   end
 
-  def new_record?
-    self[:id].nil?
-  end
-
-  # def save
-  #   super
-  # end
-  
   private
 
   def insert!
-    self[:created_at] = DateTime.now
-    self[:updated_at] = DateTime.now
-
-    fields = self.attributes.keys
-    values = self.attributes.values
-    marks  = Array.new(fields.length) { '?' }.join(',')
-
-    insert_sql = "INSERT INTO meals (#{fields.join(',')}) VALUES (#{marks})"
-
-    results = MiniActiveRecord::Model.execute(insert_sql, *values)
-
-    # This fetches the new primary key and updates this instance
-    self[:id] = MiniActiveRecord::Model.last_insert_row_id
-    results
+    @tabla = "meals"
+    super
   end
 
   def update!
-    self[:updated_at] = DateTime.now
-
-    fields = self.attributes.keys
-    values = self.attributes.values
-
-    update_clause = fields.map { |field| "#{field} = ?" }.join(',')
-    update_sql = "UPDATE meals SET #{update_clause} WHERE id = ?"
-
-    # We have to use the (potentially) old ID attribute in case the user has re-set it.
-    MiniActiveRecord::Model.execute(update_sql, *values, self.old_attributes[:id])
+    @tabla = "meals"
+    super
   end
 end

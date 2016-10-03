@@ -5,6 +5,7 @@ def assert(truthy)
   raise "Tests failed" unless truthy
 end
 
+
 chef = Chef.find(1)
 meal = Meal.find(1)
 # Este es un ejemplo de test ya que los nombres de los chefs son aleatorios, este test muy probablemente fallará
@@ -12,10 +13,11 @@ meal = Meal.find(1)
  Chef.all
 assert chef != nil
 assert meal != nil
-assert chef[:first_name] == 'Kacie'
-assert chef[:last_name] == 'Hirthe' 
-# p chef[:first_name] = 'Eduard'	si sirve
-# assert chef[:first_name] == "Eduard"	si sirve
+assert chef[:first_name] == 'Amy'
+assert chef[:last_name] == 'Daugherty' 
+assert Chef.where("first_name = ?", 'Dianna') != []
+assert Meal.where("name = ?", "Ribs Tacos") != []
+
 
 chef = Chef.create(first_name: "Juan",
   		 last_name: "Gomez",
@@ -23,11 +25,17 @@ chef = Chef.create(first_name: "Juan",
   		 phone:'48393842',
   		 birthday:Time.now)
 
+chef = Chef.create(
+		first_name: "Jack",
+  		 last_name: "Gomez",
+  		  email:'10orangeblue@gmail.com',
+  		  phone:'48393842',
+  		  birthday:Time.now
+  		  )
+  		 
+
 
 puts "finished"
-# Nota: El programa lanzara el error de ejecucion 
-# si alguna prueba se lleva mal
-
 
 # metodos de chef
 # self.all         				check
