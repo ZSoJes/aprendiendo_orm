@@ -1,8 +1,11 @@
 class Meal < MiniActiveRecord::Model
   def self.all
-    MiniActiveRecord::Model.execute("SELECT * FROM meals").map do |row|
-      Meal.new(row)
-    end
+    @consulta = "meals"
+    @clase_Es = self
+    super
+     # MiniActiveRecord::Model.execute("SELECT * FROM meals").map do |row|
+     #     Meal.new(row)
+     #   end
   end
 
   def self.create(attributes)
@@ -23,26 +26,12 @@ class Meal < MiniActiveRecord::Model
   end
 
   self.attribute_names = [:id, :name, :chef_id, :created_at, :updated_at]
-
-
-  #attr_reader :attributes, :old_attributes
+attr_reader :attributes, :old_attributes
   # e.g., Meal.new(id: 1, name: 'Chicken', created_at: '2012-12-01 05:54:30')
   def initialize(attributes = {})
     @clase = self.class
     super
   end
-
-  # def [](attribute)
-  #   raise_error_if_invalid_attribute!(attribute)
-
-  #   @attributes[attribute]
-  # end
-
-  # def []=(attribute, value)
-  #   raise_error_if_invalid_attribute!(attribute)
-
-  #   @attributes[attribute] = value
-  # end
 
   def chef
     Chef.where('id = ?', self[:chef_id])
@@ -60,19 +49,9 @@ class Meal < MiniActiveRecord::Model
   end
 
   # def save
-  #   if new_record?
-  #     results = insert!
-  #   else
-  #     results = update!
-  #   end
-
-  #   # When we save, remove changes between new and old attributes
-  #   @old_attributes = @attributes.dup
-
-  #   results
+  #   super
   # end
-
-
+  
   private
 
   def insert!

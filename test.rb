@@ -8,10 +8,12 @@ end
 chef = Chef.find(1)
 meal = Meal.find(1)
 # Este es un ejemplo de test ya que los nombres de los chefs son aleatorios, este test muy probablemente fallará
+ Meal.all
+ Chef.all
 assert chef != nil
 assert meal != nil
-assert chef[:first_name] == 'Eduardo'
-assert chef[:last_name] == 'Fernández' 
+assert chef[:first_name] == 'Kacie'
+assert chef[:last_name] == 'Hirthe' 
 # p chef[:first_name] = 'Eduard'	si sirve
 # assert chef[:first_name] == "Eduard"	si sirve
 

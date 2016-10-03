@@ -71,7 +71,14 @@ module MiniActiveRecord
       attribute_str = self.attributes.map { |key, val| "#{key}: #{val.inspect}" }.join(', ')
       "#<#{self.class} #{attribute_str}>"
     end
-  attr_reader :attributes, :old_attributes
+
+    def self.all
+      MiniActiveRecord::Model.execute("SELECT * FROM #{@consulta}").map do |row|
+        @clase_Es.new(row)
+      end
+    end
+
+  
     def initialize(attributes = {})
       attributes.symbolize_keys!
       raise_error_if_invalid_attribute!(attributes.keys)
@@ -87,11 +94,11 @@ module MiniActiveRecord
     end
 
     def save
-    if new_record?
-      results = insert!
-    else
-      results = update!
-    end
+      if new_record?
+        results = insert!
+      else
+        results = update!
+      end
 
     # When we save, remove changes between new and old attributes
     @old_attributes = @attributes.dup
