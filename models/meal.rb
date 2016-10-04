@@ -1,3 +1,4 @@
+# Script Meals
 class Meal < MiniActiveRecord::Model
   @tabla = "meals"
   def self.all

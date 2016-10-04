@@ -8,13 +8,16 @@ end
 
 chef = Chef.find(1)
 meal = Meal.find(1)
-# Este es un ejemplo de test ya que los nombres de los chefs son aleatorios, este test muy probablemente fallará
+
  Meal.all
  Chef.all
 assert chef != nil
 assert meal != nil
+
+# Este es un ejemplo de test ya que los nombres de los chefs son aleatorios, este test muy probablemente fallará
 assert chef[:first_name] == 'Amy'
 assert chef[:last_name] == 'Daugherty' 
+
 assert Chef.where("first_name = ?", 'Dianna') != []
 assert Meal.where("name = ?", "Ribs Tacos") != []
 
@@ -30,8 +33,7 @@ chef = Chef.create(
   		 last_name: "Gomez",
   		  email:'10orangeblue@gmail.com',
   		  phone:'48393842',
-  		  birthday:Time.now
-  		  )
+  		  birthday:Time.now)
   		 
 
 
@@ -39,8 +41,8 @@ puts "finished"
 
 # metodos de chef
 # self.all         				check
-# self.create(attributes)  		no check
-# self.where(query, *args)		no check
+# self.create(attributes)  		check
+# self.where(query, *args)		check
 # self.find(pk)					check
 # save							funciona junto con self.create
 # new_record?					funciona junto con new record
@@ -54,5 +56,5 @@ puts "finished"
 # meals
 # add_meals(meals)
 
-# insert!
-# update!
+# insert!						check funciona con create
+# update!						no check, no se como funciona

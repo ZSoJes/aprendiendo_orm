@@ -1,3 +1,4 @@
+# Script miniActiveRecord
 module MiniActiveRecord
   class InvalidAttributeError < StandardError; end
   class NotConnectedError < StandardError; end
@@ -93,7 +94,9 @@ module MiniActiveRecord
     def self.find(pk)
       self.where('id = ?', pk).first
     end
-attr_reader :attributes, :old_attributes
+
+    attr_reader :attributes, :old_attributes
+
     def initialize(attributes = {})
       attributes.symbolize_keys!
       raise_error_if_invalid_attribute!(attributes.keys)
@@ -117,7 +120,6 @@ attr_reader :attributes, :old_attributes
 
     # When we save, remove changes between new and old attributes
     @old_attributes = @attributes.dup
-
     results
     end
 
@@ -148,18 +150,18 @@ attr_reader :attributes, :old_attributes
     end
 
     def insert!
-          self[:created_at] = DateTime.now
-    self[:updated_at] = DateTime.now
+     self[:created_at] = DateTime.now
+     self[:updated_at] = DateTime.now
 
-    fields = self.attributes.keys
-    values = self.attributes.values
-    marks  = Array.new(fields.length) { '?' }.join(',')
+      fields = self.attributes.keys
+      values = self.attributes.values
+      marks  = Array.new(fields.length) { '?' }.join(',')
 
-    insert_sql = "INSERT INTO #{@tabla} (#{fields.join(',')}) VALUES (#{marks})"
+      insert_sql = "INSERT INTO #{@tabla} (#{fields.join(',')}) VALUES (#{marks})"
 
-    results = MiniActiveRecord::Model.execute(insert_sql, *values)
+      results = MiniActiveRecord::Model.execute(insert_sql, *values)
 
-    # This fetches the new primary key and updates this instance
+      # This fetches the new primary key and updates this instance
       self[:id] = MiniActiveRecord::Model.last_insert_row_id
       results
     end

@@ -1,0 +1,7 @@
+Piensa como la clase MiniActiveRecord::Model sabrá:
+
+¿Cuál es la tabla asociada con la clase hija?
+R: la clase toma el nombre en forma singular mientras que la tabla tiene un nombre en plural y tendria que ser especificado
+
+¿Cuál clase tiene que instanciar al regresar los resultado?
+R: La clase a la que se hace la instancia llama a Model y la misma clase regresa su nombre para que sea identificada

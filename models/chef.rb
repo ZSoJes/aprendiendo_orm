@@ -1,12 +1,13 @@
+# Script Chefs
 class Chef < MiniActiveRecord::Model
   @tabla = "chefs"
   def self.all
-    @tabla# = "chefs"
+    @tabla
     super
   end
 
   def self.where(query, *args)
-    @tabla# = "chefs"
+    @tabla
     super
   end
 
