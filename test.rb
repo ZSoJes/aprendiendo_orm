@@ -57,4 +57,4 @@ puts "finished"
 # add_meals(meals)
 
 # insert!						check funciona con create
-# update!						no check, no se como funciona
+# update!						check
